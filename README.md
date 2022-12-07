@@ -528,3 +528,21 @@ This repository contains the following GitHub CI workflows:
 
 * the [test](./.github/workflows/test.yaml) workflow validates the Kubernetes manifests and Kustomize overlays with [kubeconform](https://github.com/yannh/kubeconform)
 * the [e2e](./.github/workflows/e2e.yaml) workflow starts a Kubernetes cluster in CI and tests the staging setup by running Flux in Kubernetes Kind
+
+
+## Azure Arc
+
+```
+
+az k8s-configuration flux create -g arc \
+-c arg-gitops \
+-n cluster-config \
+--namespace cluster-config \
+-t connectedClusters \
+--scope cluster \
+-u https://github.com/denniszielke/flux2-kustomize-helm-example \
+--branch main  \
+--kustomization name=infra path=./infrastructure prune=true \
+--kustomization name=apps path=./apps/staging prune=true dependsOn=\["infra"\]
+
+```
